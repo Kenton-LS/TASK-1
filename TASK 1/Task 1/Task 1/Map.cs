@@ -4,105 +4,111 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task_1 
+namespace Task_1
 {
     public partial class Map
     {
-        public string[,] map = new string[20, 20]; //making map
-        Unit[] Characters;
-
-        //int x;
-        //int y;
-        const int width = 20;
-        const int height = 20;
-        int randomNumberOfUnits;
-        Form1 form1 = new Form1();
-        public Form1 Owner;
-
-        Random r = new Random();
-
-        //-------------------------------------------
-
-
-        public Map() //making a random number of units 
+        class Map
         {
-            randomNumberOfUnits = r.Next(1, 13);
-            Characters = new Unit[randomNumberOfUnits];
-            PopulateMap();
-        }
+            int mapSize = 20;
+            public int randomNumberOfUnits;
+            Unit[] units;
 
-        public void PopulateMap()
-        {
-            if (form1 == null)
-            form1 = (Form1)this.Owner; 
+            string[,] map; //map stored in a string to hsve 3 characters represent a block
+            string[] factions = { "BLUE", "RED" };
 
-            form1.Draw(width, height); 
-            for (int i = 0; i < Characters.Length; i++) //X AND Y COORDS
+            Random r = new Random();
+
+            ///
+
+            public Map(int randomNumberOfUnits)
             {
-                int unitDecider = r.Next(0, 2);
-                int factDecider = r.Next(0, 2);
+                this.randomNumberOfUnits = randomNumberOfUnits; //pass the number of units
+                Reset();
+            }
 
-                if (unitDecider == 0)
+            public Unit[] Units
+            {
+                get { return units; }
+            }
+
+            public int Size
+            {
+                get { return mapSize; }
+            }
+
+            public string DisplayMap() //building and returning a string
+            {
+                string mapString = ""; //building a string and returning it
+                for (int y = 0; y < mapSize; y++)
                 {
-                    MeleeUnit meleeUnit = new MeleeUnit(0, 0, 7, 7, 2, 4, 1, "Melee", "M");
-                    meleeUnit.X = r.Next(0, 20);
-                    meleeUnit.Y = r.Next(0, 20);
-
-                    if (factDecider == 0)
+                    for (int x = 0; x < mapSize; x++)
                     {
-                        meleeUnit.Faction = "BLUE";
+                        mapString += map[x, y];
                     }
-                    else if (factDecider == 1)
-                    {
-                        meleeUnit.Faction = "RED";
-                    }
-                    Characters[i] = meleeUnit; //MELEE UNIT GENERATOR
                 }
-                else if (unitDecider == 1)
-                {
-                    RangedUnit rangedUnit = new RangedUnit(0, 0, 5, 5, 4, 2, 3, "Ranged", "R");
-                    rangedUnit.X = r.Next(0, 20);
-                    rangedUnit.Y = r.Next(0, 20);
+                return mapString;
+            }
 
-                    if (factDecider == 0)
+            public void Reset()
+            {
+                map = new string[mapSize, mapSize]; //initialie map
+                units = new Unit[randomNumberOfUnits]; //initialize units
+                InitializeUnits(); //calling methods
+                UpdateDisplay();
+
+            }
+
+            ///
+
+            public void UpdateDisplay() //clears the map, sets everything to dots
+            {
+                for (int y = 0; y < mapSize; y++)
+                {
+                    for (int x = 0; x < mapSize; x++)
                     {
-                        rangedUnit.Faction = "BLUE";
+                        map[x, y] = " . ";
                     }
-                    else if (factDecider == 1)
-                    {
-                        rangedUnit.Faction = "BLUE";
-                    }
-                    Characters[i] = rangedUnit; //RANGED UNIT GENERATOR
+                }
+                foreach (Unit unit in units)
+                {
+                    map[unit.X, unit.Y] = unit.Faction[0] + "/" + unit.Symbol;
                 }
             }
-        }
-        public void DisplayMap() //DISPLAYING UNITS ON MAP. errors I have no idea how to fix. hours spent here
-        {
-            for (int yy = 0; yy < Characters.Length; yy++)
-            {
-               /* RangedUnit rangedUnit = new RangedUnit(0, 0, 5, 5, 4, 2, 3, "Ranged", "R");
-                map[Characters[yy].Y, Characters[yy].X] = Characters[yy].Symbol;
-                Console.WriteLine(Characters[yy].Y + Characters[yy].X);*/
-            }
-        }
-       public void ChangePosition()
-        {
-            GameEngine gameEngine = new GameEngine();
-            int anotherDecider = r.Next(0, 2);
 
+            ///
 
-            if (gameEngine.finishedRounds > 0)
+            public void InitializeUnits()
             {
-                if (anotherDecider == 0)
+                for (int i = 0; i < units.Length; i++)
                 {
-                
-                }
-                else if(anotherDecider == 1)
-                {
+                    int x = r.Next(0, mapSize); //generate x and y values
+                    int y = r.Next(0, mapSize);
+                    int factionIndex = r.Next(0, 2); //decides blue or red team
+                    int nameIndex = r.Next(0, 5);
+                    int unitType = r.Next(0, 2); //decides ranged or melee
+
+                    while (map[x, y] != null)
+                    {
+                        x = r.Next(0, mapSize);
+                        y = r.Next(0, mapSize);
+                    }
+
+                    if (unitType == 0)
+                    {
+                        units[i] = new MeleeUnit(x, y, factions[factionIndex]);
+                    }
+                    else
+                    {
+                        units[i] = new RangedUnit(x, y, factions[factionIndex]);
+                    }
+                    map[x, y] = units[i].Faction[0] + "/" + units[i].Symbol; //returns the team and the unit type
+
 
                 }
             }
         }
     }
-    }
+}
 
+ 
