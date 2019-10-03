@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Task_1
 {
-    public partial class Form1 : Form
+    public partial class frm1 : Form
     {
         Map mapHolder = new Map();
         string[,] map = new string[20, 20];
         int mapX = 20;
         int mapY = 20;
         
-        public Form1()
+        public frm1()
         {
             InitializeComponent();
             mapHolder.Owner = this;
@@ -34,9 +34,9 @@ namespace Task_1
             {
                 for (int yy = 0; yy < height; yy++)
                 {
-                    map_lbl.Text += " . ";
+                    lblMap.Text += " . ";
                 }
-                map_lbl.Text += "\n";
+                lblMap.Text += "\n";
             }
         }
 
@@ -57,13 +57,13 @@ namespace Task_1
 
         private void stats_txt_TextChanged(object sender, EventArgs e)
         {
-            stats_txt.Text = mapHolder.ToString();
+            rtbUnitInfo.Text = mapHolder.ToString();
         }
 
         private void round_lbl_Click(object sender, EventArgs e)
         {
             GameEngine gameEngine = new GameEngine();
-            round_lbl.Text = "Round: " + gameEngine.finishedRounds;
+            lblRound.Text = "Round: " + gameEngine.finishedRounds;
         }
     }
 }
