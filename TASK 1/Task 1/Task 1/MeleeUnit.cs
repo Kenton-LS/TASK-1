@@ -9,7 +9,7 @@ namespace Task_1
     class MeleeUnit : Unit
     {
         public MeleeUnit(int x, int y, /*int health, int maxHealth, int speed, int attack, int attackRange, char symbol,*/ string faction, string nameUnit)
-               : base(x, y, 7, 7, 1, 4, /*1,*/ 'M', faction, nameUnit) { } //use the base keyword
+               : base(x, y, 7, 7, 1, 4, /*1,*/ 'M', faction) { } //use the base keyword
                                                                        ////////////////////////////////////////////////////////
 
         public override int X //overridden properties from Unit, thereby updating them to Melee specifically
