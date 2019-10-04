@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Task_1
 {
-    public partial class Map
+    class Map
     {
-        class Map
-        {
             int mapSize = 20;
             public int randomNumberOfUnits;
             Unit[] units;
@@ -109,6 +107,5 @@ namespace Task_1
             }
         }
     }
-}
 
  

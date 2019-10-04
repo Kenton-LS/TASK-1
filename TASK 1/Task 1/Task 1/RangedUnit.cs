@@ -8,8 +8,8 @@ namespace Task_1
 {
     class RangedUnit : Unit
     {
-        public RangedUnit(int x, int y, /*int health, int maxHealth, int speed, int attack, int attackRange, char symbol,*/ string faction, string nameUnit)
-              : base(x, y, 5, 5, 1, 2, /*3,*/ 'R', faction) { } //use the base keyword
+        public RangedUnit(int x, int y, /*int health, int maxHealth, int speed, int attack, int attackRange, char symbol,*/ string faction)
+              : base(x, y, 5, 5, 1, 2, 3, 'R', faction) { } //use the base keyword
         ////////////////////////////////////////////////////////
 
         public override int X //overridden properties
