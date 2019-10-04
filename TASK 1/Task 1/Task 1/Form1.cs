@@ -65,7 +65,8 @@ namespace Task_1
 
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+
+        private void btnStart_Click_1(object sender, EventArgs e)
         {
             if (condition == Condition.RUNNING)
             {

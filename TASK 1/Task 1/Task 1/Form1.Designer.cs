@@ -42,6 +42,7 @@
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "START / PAUSE";
             this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click_1);
             // 
             // lblRound
             // 
@@ -51,7 +52,6 @@
             this.lblRound.Size = new System.Drawing.Size(125, 28);
             this.lblRound.TabIndex = 2;
             this.lblRound.Text = "ROUND: ";
-            //this.lblRound.Click += new System.EventHandler(this.round_lbl_Click); giving issues, this never has to be clicked, so i thereby commented it out
             // 
             // rtbUnitInfo
             // 
@@ -60,7 +60,6 @@
             this.rtbUnitInfo.Size = new System.Drawing.Size(312, 393);
             this.rtbUnitInfo.TabIndex = 4;
             this.rtbUnitInfo.Text = "";
-            //this.rtbUnitInfo.TextChanged += new System.EventHandler(this.stats_txt_TextChanged); giving issues, this never has to be clicked, so i thereby commented it out
             // 
             // lblMap
             // 
@@ -70,7 +69,6 @@
             this.lblMap.Name = "lblMap";
             this.lblMap.Size = new System.Drawing.Size(247, 393);
             this.lblMap.TabIndex = 5;
-            //this.lblMap.Click += new System.EventHandler(this.map_lbl_Click); giving issues, this never has to be clicked, so i thereby commented it out
             // 
             // frm1
             // 
@@ -83,7 +81,6 @@
             this.Controls.Add(this.btnStart);
             this.Name = "frm1";
             this.Text = "THE WAR FOR BOEREWORS";
-            //this.Load += new System.EventHandler(this.Form1_Load); giving issues, this never has to be clicked, so i thereby commented it out
             this.ResumeLayout(false);
 
         }
