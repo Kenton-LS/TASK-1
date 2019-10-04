@@ -12,58 +12,81 @@ namespace Task_1
 {
     public partial class frm1 : Form
     {
-        Map mapHolder = new Map();
-        string[,] map = new string[20, 20];
-        int mapX = 20;
-        int mapY = 20;
-        
+        GameEngine engine;
+        Timer timer;
+        Condition condition = Condition.PAUSED;
+
+
         public frm1()
         {
             InitializeComponent();
-            mapHolder.Owner = this;
-            Draw(20, 20);
-            mapHolder.PopulateMap();
-            mapHolder.DisplayMap();
+
+            ///
+
+            engine = new GameEngine(); //new game engine object
+            lblMap.Text = engine.DisplayMap(); //initialize map through the game enigne constructor (sets up map)
+            rtbUnitInfo.Text = engine.Information();
+            lblRound.Text = "Round:  " + engine.Round;
+
+            ///
+
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += RunningGame; //runs through every time the timer ticks, runs loop of the game
         }
 
-        public void Draw(int mapX, int mapY) //populate visual representation
+        private void RunningGame(object sender, EventArgs e)
         {
-            int width = mapX;
-            int height = mapY;
-            for (int xx = 0; xx < width; xx++)
+            engine.GameLoop();
+            UpdateInterface();
+
+            if (engine.GameOver) //checks targets left. if 0 , then game ends and displays winner text
             {
-                for (int yy = 0; yy < height; yy++)
+                timer.Stop();
+                lblMap.Text = engine.Winning + " IS VICTORIOUS\n" + lblMap.Text;
+                condition = Condition.ENDED;
+                btnStart.Text = "RESTART";
+            }
+
+
+        }
+
+        private void UpdateInterface() //set unit display and update the round
+        {
+            lblMap.Text = engine.DisplayMap();
+            rtbUnitInfo.Text = engine.Information();
+            lblRound.Text = "ROUND: " + engine.Round;
+        }
+
+        /// 
+
+        private void frm1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if (condition == Condition.RUNNING)
+            {
+                timer.Stop();
+                condition = Condition.PAUSED;
+                btnStart.Text = "START";
+            }
+            else
+            {
+                if (condition == Condition.ENDED) //resets all before running 
                 {
-                    lblMap.Text += " . ";
+                    engine.Reset();
                 }
-                lblMap.Text += "\n";
+                timer.Start(); //runs game again
+                condition = Condition.RUNNING;
+                btnStart.Text = "PAUSE";
             }
         }
-
-        
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-          
-        }
-
-        private void map_lbl_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void stats_txt_TextChanged(object sender, EventArgs e)
-        {
-            rtbUnitInfo.Text = mapHolder.ToString();
-        }
-
-        private void round_lbl_Click(object sender, EventArgs e)
-        {
-            GameEngine gameEngine = new GameEngine();
-            lblRound.Text = "Round: " + gameEngine.finishedRounds;
-        }
+    }
+    public enum Condition
+    {
+        RUNNING, PAUSED, ENDED
     }
 }
